@@ -11,8 +11,8 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
 
-  double totalMensuel = 3000;
-  double moyenneJournaliere = 3000;
+  double totalMensuel = 0;
+  double moyenneJournaliere = 0;
   int transactions = 1;
   int categories = 1;
 
@@ -223,8 +223,19 @@ class _DashboardPageState extends State<DashboardPage> {
                                   transactions++;
 
                                   repartition[_selectedCategory!] =
-                                      (repartition[_selectedCategory!] ?? 0) +
-                                          amount;
+                                      (repartition[_selectedCategory!] ?? 0) + amount;
+
+                                  categories = repartition.length;
+
+                                  final now = DateTime.now();
+                                  final firstDay =
+                                  DateTime(now.year, now.month, 1);
+
+                                  int daysPassed =
+                                      now.difference(firstDay).inDays + 1;
+
+                                  moyenneJournaliere =
+                                      totalMensuel / daysPassed;
                                 });
 
                                 Navigator.pop(context);
@@ -279,7 +290,6 @@ class _DashboardPageState extends State<DashboardPage> {
       ),
 
       bottomNavigationBar: const CustomBottomNavBar(currentIndex: 0),
-
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -292,16 +302,94 @@ class _DashboardPageState extends State<DashboardPage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+
               const SizedBox(height: 20),
 
+              /// PREMIÈRE LIGNE
               Row(
                 children: [
-                  _buildStatCard("Total Mensuel",
+                  _buildStatCard(
+                      "Total Mensuel",
                       "${totalMensuel.toInt()} FCFA"),
                   const SizedBox(width: 10),
-                  _buildStatCard("Moy. Journalière",
+                  _buildStatCard(
+                      "Moy. Journalière",
                       "${moyenneJournaliere.toInt()} FCFA"),
                 ],
+              ),
+
+              const SizedBox(height: 10),
+
+              /// DEUXIÈME LIGNE
+              Row(
+                children: [
+                  _buildStatCard(
+                      "Transactions",
+                      transactions.toString()),
+                  const SizedBox(width: 10),
+                  _buildStatCard(
+                      "Catégories",
+                      repartition.length.toString()),
+                ],
+              ),
+
+              const SizedBox(height: 20),
+
+              /// GRAPHIQUE
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: _boxDecoration(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Répartition par catégorie",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600),
+                    ),
+                    const SizedBox(height: 20),
+
+                    SizedBox(
+                      height: 220,
+                      child: PieChart(
+                        PieChartData(
+                          sections: _buildPieSections(),
+                          centerSpaceRadius: 60,
+                          sectionsSpace: 3,
+                          borderData:
+                          FlBorderData(show: false),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 15),
+
+                    /// LÉGENDE DYNAMIQUE
+                    Wrap(
+                      spacing: 10,
+                      runSpacing: 6,
+                      children: repartition.entries.map((entry) {
+                        return Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.circle,
+                                size: 10, color: Colors.blue),
+                            const SizedBox(width: 5),
+                            Text(entry.key),
+                          ],
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              /// BLOC BAS
+              Container(
+                height: 150,
+                decoration: _boxDecoration(),
               ),
             ],
           ),
