@@ -1,4 +1,6 @@
+import 'package:app_expense/Screen/Depenses_pages.dart';
 import 'package:flutter/material.dart';
+import 'features/auth/login.dart';
 import 'features/splash/splash_screen.dart';
 import 'Screen/DashboardPage.dart';
 
@@ -24,6 +26,8 @@ class SmartExpenseApp extends StatelessWidget {
       routes: {
         '/': (context) => const SplashScreen(),
         '/dashboard': (context) => DashboardPage(),
+        '/login':(context)=> LoginPage(),
+        '/depenses':(context)=>DepensesPage()
       },
     );
   }

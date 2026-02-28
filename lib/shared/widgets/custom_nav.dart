@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../Screen/DashboardPage.dart';
 
-
 class CustomBottomNavBar extends StatelessWidget {
   final int currentIndex;
 
@@ -14,7 +13,9 @@ class CustomBottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       currentIndex: currentIndex,
+      backgroundColor: Colors.white,
       selectedItemColor: Colors.black,
+      unselectedItemColor: Colors.grey,
       onTap: (index) {
         if (index == currentIndex) return;
 

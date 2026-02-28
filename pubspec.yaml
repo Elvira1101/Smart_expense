@@ -29,6 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   fl_chart: ^0.66.0
+  sqflite: ^2.3.0
   flutter:
     sdk: flutter
 
@@ -38,6 +39,7 @@ dependencies:
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1
+
   flutter_test:
       sdk: flutter
 
