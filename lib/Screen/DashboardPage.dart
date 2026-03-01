@@ -220,6 +220,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
                                 setState(() {
                                   totalMensuel += amount;
+
                                   transactions++;
 
                                   repartition[_selectedCategory!] =
@@ -234,8 +235,9 @@ class _DashboardPageState extends State<DashboardPage> {
                                   int daysPassed =
                                       now.difference(firstDay).inDays + 1;
 
-                                  moyenneJournaliere =
-                                      totalMensuel / daysPassed;
+                                  moyenneJournaliere = daysPassed == 0
+                                      ? 0
+                                      : totalMensuel / daysPassed;
                                 });
 
                                 Navigator.pop(context);

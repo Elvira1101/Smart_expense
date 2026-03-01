@@ -15,7 +15,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String name = '';
   String email = '';
   String password = '';
-
+  bool _obscurePassword = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -191,7 +191,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     void Function(String?)? onSaved,
   }) {
     return TextFormField(
-      obscureText: obscure,
+      obscureText: obscure ? _obscurePassword : false,
       validator: validator,
       onSaved: onSaved,
       decoration: InputDecoration(

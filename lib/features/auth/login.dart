@@ -16,6 +16,8 @@ class _LoginPageState extends State<LoginPage> {
   String email = '';
   String password = '';
 
+  bool _obscurePassword = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +49,6 @@ class _LoginPageState extends State<LoginPage> {
 
                 const SizedBox(height: 25),
 
-
                 Container(
                   padding: const EdgeInsets.all(25),
                   decoration: BoxDecoration(
@@ -61,7 +62,6 @@ class _LoginPageState extends State<LoginPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
 
-
                       const Text(
                         "Email",
                         style: TextStyle(
@@ -72,21 +72,20 @@ class _LoginPageState extends State<LoginPage> {
                       const SizedBox(height: 6),
 
                       _buildInput(
+                        hint: "ex: elvirangahaneket@gmail.com",
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Enter your email";
                           }
-
                           if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
                             return "Invalid email format";
                           }
-
                           return null;
-                        }, hint: '',
+                        },
+                        onSaved: (value) => email = value!,
                       ),
 
                       const SizedBox(height: 20),
-
 
                       const Text(
                         "Password",
@@ -149,7 +148,6 @@ class _LoginPageState extends State<LoginPage> {
 
                 const SizedBox(height: 40),
 
-
                 SizedBox(
                   width: 200,
                   height: 50,
@@ -163,7 +161,6 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
-
                         Navigator.pushReplacementNamed(context, '/dashboard');
                       }
                     },
@@ -194,7 +191,7 @@ class _LoginPageState extends State<LoginPage> {
     void Function(String?)? onSaved,
   }) {
     return TextFormField(
-      obscureText: obscure,
+      obscureText: obscure ? _obscurePassword : false,
       validator: validator,
       onSaved: onSaved,
       decoration: InputDecoration(
@@ -209,6 +206,22 @@ class _LoginPageState extends State<LoginPage> {
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
         ),
+
+        // 👁️ OEIL DYNAMIQUE
+        suffixIcon: obscure
+            ? IconButton(
+          icon: Icon(
+            _obscurePassword
+                ? Icons.visibility_off
+                : Icons.visibility,
+          ),
+          onPressed: () {
+            setState(() {
+              _obscurePassword = !_obscurePassword;
+            });
+          },
+        )
+            : null,
       ),
     );
   }

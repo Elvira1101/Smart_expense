@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../Screen/DashboardPage.dart';
+import '../../Screen/Depenses_pages.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -13,14 +14,16 @@ class CustomBottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       currentIndex: currentIndex,
-      backgroundColor: Colors.white,
       selectedItemColor: Colors.black,
       unselectedItemColor: Colors.grey,
+      backgroundColor: Colors.white,
       onTap: (index) {
+        // Si l'utilisateur clique sur l'onglet actuel, on ne fait rien
         if (index == currentIndex) return;
 
         switch (index) {
           case 0:
+          // Redirection vers Dashboard
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -30,7 +33,14 @@ class CustomBottomNavBar extends StatelessWidget {
             break;
 
           case 1:
-          // Navigator.pushReplacement vers DepensesPage
+          // Redirection vers DepensesPage
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const DepensesPage(),
+
+              ),
+            );
             break;
         }
       },
